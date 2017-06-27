@@ -37,6 +37,7 @@ class Boot {
 
     LiftRules.supplementalHeaders.default.set(List(
       ("Access-Control-Allow-Origin", "*"),
+      ("Access-Control-Allow-Headers", "Content-Type"),
       ("Access-Control-Allow-Credentials", "true")
     ))
   }
