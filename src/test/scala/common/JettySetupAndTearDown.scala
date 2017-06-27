@@ -1,5 +1,6 @@
 package test
 
+import bootstrap.liftweb.Start
 import org.specs2.mutable
 import org.specs2.specification.BeforeAfterAll
 
@@ -8,6 +9,6 @@ import org.specs2.specification.BeforeAfterAll
   */
 
 trait JettySetupAndTearDown extends BeforeAfterAll{ _: mutable.Specification =>
-  def setup() = JettyTestServer.start
-  def destroy() = JettyTestServer.stop()
+  def setup() = Start.startLift()
+  def destroy() = println("TODO")
 }
