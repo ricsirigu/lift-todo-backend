@@ -10,7 +10,7 @@ import scala.collection.concurrent.TrieMap
 /**
   * Created by Riccardo Sirigu on 24/06/17.
   */
-case class Todo(id: Long, title: String, completed: Boolean, uri: String, order: Option[Int])
+case class Todo(id: Long, title: String, completed: Boolean, order: Option[Int])
 
 object Todo extends Decomposable[Todo]{
 
@@ -23,9 +23,9 @@ object Todo extends Decomposable[Todo]{
 
   def unapply(in: JValue): Option[Todo] = apply(in)
 
-  def unapply(in: Any): Option[(Long, String, Boolean, String, Option[Int])] = {
+  def unapply(in: Any): Option[(Long, String, Boolean, Option[Int])] = {
     in match {
-      case t: Todo => Some((t.id, t.title, t.completed, t.uri, t.order))
+      case t: Todo => Some((t.id, t.title, t.completed, t.order))
       case _ => None
     }
   }
