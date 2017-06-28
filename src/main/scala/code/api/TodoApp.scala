@@ -29,6 +29,9 @@ object TodoApp extends MyRestHelper{
     case "todos" :: Todo(todo) :: Nil JsonGet _ =>
       todo: JValue
 
+    case "todos" :: Todo(todo) :: Nil Options _ =>
+      todo: JValue
+
     case "todos" :: Todo(todo) :: Nil JsonPatch todoJson -> _ =>
       Todo(mergeJson(todo, todoJson)).map(Todo.update(_): JValue)
 

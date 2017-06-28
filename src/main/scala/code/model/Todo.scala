@@ -14,7 +14,7 @@ import scala.collection.concurrent.TrieMap
   */
 case class Todo(id: Option[Long],
                 title: Option[String],
-                completed: Boolean = false,
+                completed: Option[Boolean],
                 order: Option[Int],
                 url: Option[String]
                )
@@ -31,7 +31,7 @@ object Todo extends Decomposable[Todo]{
 
   def unapply(in: JValue): Option[Todo] = apply(in)
 
-  def unapply(in: Any): Option[(Option[Long], Option[String], Boolean, Option[Int], Option[String])] = {
+  def unapply(in: Any): Option[(Option[Long], Option[String], Option[Boolean], Option[Int], Option[String])] = {
     in match {
       case t: Todo => Some((t.id, t.title, t.completed, t.order, t.url))
       case _ => None
@@ -39,9 +39,14 @@ object Todo extends Decomposable[Todo]{
   }
 
   def add(todo: Todo): Todo = {
+    println(todo)
     val id = idSeq.incrementAndGet()
     val url = todo.url.map{u => s"$u/todos/$id"}.getOrElse("")
-    val todoEntity = todo.copy(id = Some(id), url = Some(url))
+    val todoEntity = todo.copy(
+      id = Some(id),
+      url = Some(url),
+      completed = todo.completed orElse Some(false)
+    )
     store.put(id, todoEntity)
     todoEntity
   }
