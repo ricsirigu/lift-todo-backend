@@ -1,5 +1,7 @@
 package code.model
 
+import java.util.concurrent.atomic.AtomicLong
+
 import net.liftweb.common.Box
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.util.Helpers
@@ -10,11 +12,12 @@ import scala.collection.concurrent.TrieMap
 /**
   * Created by Riccardo Sirigu on 24/06/17.
   */
-case class Todo(id: Long, title: String, completed: Boolean, order: Option[Int])
+case class Todo(id: Option[Long], title: Option[String], completed: Option[Boolean], order: Option[Int])
 
 object Todo extends Decomposable[Todo]{
 
   private val store: TrieMap[Long, Todo] = TrieMap.empty[Long, Todo]
+  private val idSeq: AtomicLong = new AtomicLong()
 
   def apply(in: JValue): Box[Todo] = Helpers.tryo{in.extract[Todo]}
 
@@ -23,7 +26,7 @@ object Todo extends Decomposable[Todo]{
 
   def unapply(in: JValue): Option[Todo] = apply(in)
 
-  def unapply(in: Any): Option[(Long, String, Boolean, Option[Int])] = {
+  def unapply(in: Any): Option[(Option[Long], Option[String], Option[Boolean], Option[Int])] = {
     in match {
       case t: Todo => Some((t.id, t.title, t.completed, t.order))
       case _ => None
@@ -31,7 +34,16 @@ object Todo extends Decomposable[Todo]{
   }
 
   def add(todo: Todo): Todo = {
-    store.put(todo.id, todo)
+    val id = idSeq.incrementAndGet()
+    val todoEntity = todo.copy(id = Some(id))
+    store.put(id, todoEntity)
+    todoEntity
+  }
+
+  def update(todo: Todo): Todo = {
+    todo.id.foreach{ todoId =>
+      store.put(todoId, todo)
+    }
     todo
   }
 
