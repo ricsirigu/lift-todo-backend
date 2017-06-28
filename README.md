@@ -1,4 +1,4 @@
-## Todo Backend with the Lift Framework
+## Todo Backend in Scala with the Lift Framework
 https://liftweb.net/
 
 https://www.todobackend.com/
