@@ -12,7 +12,12 @@ import scala.collection.concurrent.TrieMap
 /**
   * Created by Riccardo Sirigu on 24/06/17.
   */
-case class Todo(id: Option[Long], title: Option[String], completed: Option[Boolean], order: Option[Int])
+case class Todo(id: Option[Long],
+                title: Option[String],
+                completed: Boolean = false,
+                order: Option[Int],
+                url: Option[String]
+               )
 
 object Todo extends Decomposable[Todo]{
 
@@ -26,16 +31,17 @@ object Todo extends Decomposable[Todo]{
 
   def unapply(in: JValue): Option[Todo] = apply(in)
 
-  def unapply(in: Any): Option[(Option[Long], Option[String], Option[Boolean], Option[Int])] = {
+  def unapply(in: Any): Option[(Option[Long], Option[String], Boolean, Option[Int], Option[String])] = {
     in match {
-      case t: Todo => Some((t.id, t.title, t.completed, t.order))
+      case t: Todo => Some((t.id, t.title, t.completed, t.order, t.url))
       case _ => None
     }
   }
 
   def add(todo: Todo): Todo = {
     val id = idSeq.incrementAndGet()
-    val todoEntity = todo.copy(id = Some(id))
+    val url = todo.url.map{u => s"$u/todos/$id"}.getOrElse("")
+    val todoEntity = todo.copy(id = Some(id), url = Some(url))
     store.put(id, todoEntity)
     todoEntity
   }

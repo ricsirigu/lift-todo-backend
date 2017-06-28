@@ -17,8 +17,10 @@ object TodoApp extends MyRestHelper{
     case Nil Options _ =>
       Todo.getAll: JValue
 
-    case Nil JsonPost Todo(todo) -> _ =>
-      Todo.add(todo): JValue
+    case Nil JsonPost Todo(todo) -> req =>
+      val url = req.hostAndPath
+      val parsedTodo = todo.copy(url = Some(url))
+      Todo.add(parsedTodo): JValue
 
     case Nil JsonDelete _ =>
       Todo.deleteAll()
