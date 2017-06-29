@@ -39,7 +39,6 @@ object Todo extends Decomposable[Todo]{
   }
 
   def add(todo: Todo): Todo = {
-    println(todo)
     val id = idSeq.incrementAndGet()
     val url = todo.url.map{u => s"$u/todos/$id"}.getOrElse("")
     val todoEntity = todo.copy(
