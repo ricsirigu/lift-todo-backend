@@ -1,14 +1,14 @@
 package code.api
 
 import code.model.Todo
-import code.rest.MyRestHelper
+import net.liftweb.http.rest.RestHelper
 import net.liftweb.json.JsonAST.{JArray, JBool, JNothing, JValue}
 import net.liftweb.util.BasicTypesHelpers.AsLong
 
 /**
   * Created by Riccardo Sirigu on 24/06/17.
   */
-object TodoApp extends MyRestHelper{
+object TodoApp extends RestHelper{
 
   serve{
     case Nil JsonGet _ =>

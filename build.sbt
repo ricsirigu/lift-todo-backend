@@ -17,7 +17,7 @@ addCommandAlias("run", "~jetty:start")
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
 libraryDependencies ++= {
-  val liftVersion = "3.1.0-RC1"
+  val liftVersion = "3.2.0-M1"
   Seq(
     "net.liftweb"       %% "lift-webkit"        % liftVersion           % "compile",
     "org.eclipse.jetty" % "jetty-webapp"        % "9.4.6.v20170531"     % "compile",
