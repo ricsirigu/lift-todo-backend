@@ -3,7 +3,9 @@ https://liftweb.net/
 
 https://www.todobackend.com/
 
-This implementation uses an in-memory store
+This implementation uses a thread-safe in-memory store
+
+Play with it [here](http://www.todobackend.com/client/index.html?https://lift-todo-backend.herokuapp.com/)
 
 ### Running
 
